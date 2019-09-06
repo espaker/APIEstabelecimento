@@ -18,8 +18,11 @@ class Database:
         self.cursor = self.conn.cursor()
 
     def query_exec(self, query):
-        self.cursor.execute(query)
-        return self.cursor.fetchall()
+        try:
+            self.cursor.execute(query)
+            return {"State": True, "Result": self.cursor.fetchall()}
+        except Exception as e:
+            return {"State": False, "Result": e}
 
     def db_close(self):
         self.conn.close()
